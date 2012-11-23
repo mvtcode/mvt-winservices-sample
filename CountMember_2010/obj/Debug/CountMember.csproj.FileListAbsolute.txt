@@ -1,0 +1,17 @@
+D:\Project\CountMember\bin\Debug\CountMember.exe
+D:\Project\CountMember\bin\Debug\CountMember.pdb
+D:\Project\CountMember\obj\Debug\ResolveAssemblyReference.cache
+D:\Project\CountMember\obj\Debug\CountMember.ProjectInstaller.resources
+D:\Project\CountMember\obj\Debug\CountMember.csproj.GenerateResource.Cache
+D:\Project\CountMember\obj\Debug\CountMember.exe
+D:\Project\CountMember\obj\Debug\CountMember.pdb
+D:\Project\CountMember\obj\Debug\CountMember.AutoServices.resources
+D:\Project\CountMember_2010\obj\Debug\CountMember.exe
+D:\Project\CountMember_2010\obj\Debug\CountMember.pdb
+D:\Project\CountMember_2010\bin\Debug\CountMember.exe
+D:\Project\CountMember_2010\bin\Debug\CountMember.pdb
+D:\Project\CountMember_2010\obj\Debug\ResolveAssemblyReference.cache
+D:\Project\CountMember_2010\obj\Debug\CountMember.AutoServices.resources
+D:\Project\CountMember_2010\obj\Debug\CountMember.ProjectInstaller.resources
+D:\Project\CountMember_2010\obj\Debug\ResGen.read.1.tlog
+D:\Project\CountMember_2010\obj\Debug\ResGen.write.1.tlog
