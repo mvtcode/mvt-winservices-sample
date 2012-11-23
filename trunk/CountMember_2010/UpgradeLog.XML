@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="CountMember">
+</Property><Property Name="Solution File" Value="D:\Project\CountMember_2010\CountMember.sln">
+</Property><Property Name="Date" Value="Friday, November 23, 2012">
+</Property><Property Name="Time" Value="17:32 PM">
+</Property></Properties><Event ErrorLevel="0" Project="CountMember" Source="CountMember.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="CountMember" Source="CountMember.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="CountMember.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="CountMember.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CountMember" Source="CountMember.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
