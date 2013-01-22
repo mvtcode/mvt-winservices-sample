@@ -15,3 +15,13 @@ D:\Project\CountMember_2010\obj\Debug\CountMember.AutoServices.resources
 D:\Project\CountMember_2010\obj\Debug\CountMember.ProjectInstaller.resources
 D:\Project\CountMember_2010\obj\Debug\ResGen.read.1.tlog
 D:\Project\CountMember_2010\obj\Debug\ResGen.write.1.tlog
+D:\Project\mvt-winservices-sample\CountMember_2010\obj\Debug\CountMember.exe
+D:\Project\mvt-winservices-sample\CountMember_2010\obj\Debug\CountMember.pdb
+D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\CountMember.exe.config
+D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\CountMember.exe
+D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\CountMember.pdb
+D:\Project\mvt-winservices-sample\CountMember_2010\obj\Debug\ResolveAssemblyReference.cache
+D:\Project\mvt-winservices-sample\CountMember_2010\obj\Debug\CountMember.AutoServices.resources
+D:\Project\mvt-winservices-sample\CountMember_2010\obj\Debug\CountMember.ProjectInstaller.resources
+D:\Project\mvt-winservices-sample\CountMember_2010\obj\Debug\ResGen.read.1.tlog
+D:\Project\mvt-winservices-sample\CountMember_2010\obj\Debug\ResGen.write.1.tlog
