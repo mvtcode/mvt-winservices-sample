@@ -1,36 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Mime;
 using System.ServiceProcess;
-using System.Text;
 using System.Timers;
 using System.Windows.Forms;
-using System.Xml;
 using Timer = System.Timers.Timer;
+using MailMessage = System.Net.Mail.MailMessage;
+using System.Data;
+using System.Xml;
 
 namespace CountMember
 {
     partial class AutoServices : ServiceBase
     {
-        private string sLogFile = Application.StartupPath + "\\logfile.txt";
-        private string sConnectString;
-        private string shostname;
-        private string sFrom;
-        private string sPassword;
-        private int iPort = 25;
-        private int HospitalID;
         private int iIntervalMinutes;
         private Timer t;
-        private string sTimeSend;
-        private SmtpClient smtp;
-
+        private DateTime dateOld;// = DateTime.Now;
+        //private bool bNew;
         public AutoServices()
         {
             InitializeComponent();
@@ -73,11 +61,6 @@ namespace CountMember
         {
             try
             {
-                if (false)
-                {
-                    return true;
-                }
-
                 WriteLog("Service Starting...");
 
                 GetSetting();
@@ -112,92 +95,100 @@ namespace CountMember
 
         private bool GetSetting()
         {
-            //DataSet ds = new DataSet();
-            //try
-            //{
-            //    XmlReader xmlFile = default(XmlReader);
-            //    xmlFile = XmlReader.Create(My.Application.Info.DirectoryPath + "\\ConfigFile.xml", new XmlReaderSettings());
-            //    ds.ReadXml(xmlFile);
-            //    if ((ds != null))
-            //    {
-            //        if (ds.Tables[0].Rows.Count > 0)
-            //        {
-            //            sConnectString = StringForNull(ds.Tables[0].Rows[0]["ConnectionString"]);
-            //            sLogFile = StringForNull(ds.Tables[0].Rows[0]["LogFile"]);
-            //            HospitalID = IntegerForNull(ds.Tables[0].Rows[0]["HospitalID"]);
-            //            iIntervalMinutes = IntegerForNull(ds.Tables[0].Rows[0]["IntervalMinutes"]);
-            //            sTimeSend = StringForNull(ds.Tables[0].Rows[0]["TimeSend"]);
-            //        }
-            //    }
-            //    return true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    WriteLog("Lỗi GetSetting: " + ex.Message);
-            //    return false;
-            //}
-            //finally
-            //{
-            //    if ((ds != null))
-            //    {
-            //        ds.Clear();
-            //        ds.Dispose();
-            //    }
-            //}
+            //load file setting
+            iIntervalMinutes = 1;
+            //bNew = true;
             return true;
         }
 
         private void TimerRuning(object sender, ElapsedEventArgs e)
         {
+            //working...
             WriteLog("Server Runing...");
-            if (!string.IsNullOrEmpty(sTimeSend))
+
+            if (dateOld==null)
             {
-                //string[] sTime = sTimeSend.Split(":");
-                //string iHour = IntegerForNull(sTime[0]);
-                //string iMinute = IntegerForNull(sTime[1]);
-                //DateTime oTimeNow = DateAndTime.Now;
-                //if (iHour == oTimeNow.Hour & iMinute == oTimeNow.Minute)
-                //{
-                //    clsAutoService obj = new clsAutoService(sConnectString);
-                //    DataSet ds = obj.Load_ListEmail();
-                //    if ((ds != null))
-                //    {
-                //        if (ds.Tables[0].Rows.Count > 0)
-                //        {
-                //            t.Stop();
-                //            SmtpClient smtp = new SmtpClient(shostname, iPort);
-                //            smtp.Credentials = new System.Net.NetworkCredential(sFrom, sPassword);
-                //            smtp.EnableSsl = true;
-                //            foreach (DataRow dr in ds.Tables[0].Rows)
-                //            {
-                //                int iID = IntegerForNull(dr["ID"]);
-                //                Load_EmailDetail(iID);
-                //            }
-                //            smtp = null;
-                //            t.Start();
-                //        }
-                //    }
-                //}
+                sendemail();
+                dateOld = DateTime.Now;
+                //bNew = false;
+            }
+            else
+            {
+                if (dateOld.Day != DateTime.Now.Day)
+                {
+                    t.Stop();
+                    sendemail();
+                    t.Start();
+                }
             }
         }
 
         private void WriteLog(string s)
         {
+            //if(!Directory.Exists(Application.StartupPath + "\\log"))
+            //{
+            //    Directory.CreateDirectory(Application.StartupPath + "\\log");
+            //}
+            string sLogFile = Application.StartupPath + "\\log\\logfile.txt";
             TextWriter file = new StreamWriter(sLogFile, true);
             file.WriteLine("-> " + DateTime.Now + " : " + s);
             file.Close();
         }
 
-        private int getFromUrl()
+        private void sendemail()
         {
-            string url = "http://violympic.vn/";
-            Uri uri = new Uri(url);
-            String host = uri.Scheme + Uri.SchemeDelimiter + uri.Host;// +":" + uri.Port;
-            if (uri.Port != 80) host += uri.Port;
-            WebClient client = new WebClient();
-            string html = client.DownloadString(url);
+            try
+            {
+                LichVanNien.Service1SoapClient services = new LichVanNien.Service1SoapClient();
+                System.Xml.Linq.XElement obj = services.lichvansu(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                System.Xml.Linq.XNode calenday = obj.FirstNode;//id
+                calenday = calenday.NextNode;//day
+                calenday = calenday.NextNode;//lunaday
+                string sContent = string.Format("Ngày: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//lunamonth
+                sContent += string.Format("Tháng: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Năm: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Hoàng đạo: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Ngũ hành: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Sao: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Nên làm: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Không nên làm: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Xuất Hành: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Giờ tốt: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Tuổi xung: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                calenday = calenday.NextNode;//
+                sContent += string.Format("Tiết: {0}--", ((System.Xml.Linq.XElement) calenday).Value);// +System.Environment.NewLine;
+                sContent += "(Send From AutoServices)";
 
-            return 0;
+                var smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new NetworkCredential("macvantan@gmail.com", "******");
+                smtp.EnableSsl = true;
+                var mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress("macvantan@gmail.com");
+                //mailMessage.To.Add(new MailAddress("macvantan@gmail.com"));//lyra796pharos@m.facebook.com
+                mailMessage.To.Add(new MailAddress("lyra796pharos@m.facebook.com"));
+                mailMessage.Subject = sContent;// "test tiêu đề";
+                mailMessage.Body = string.Format("Send auto at: {0:dd/MM/yyyy HH:mm:ss}",DateTime.Now);
+                mailMessage.IsBodyHtml = true;
+                smtp.Send(mailMessage);
+                mailMessage.Dispose();
+                WriteLog("send email:" + sContent);
+            }
+            catch (ApplicationException ex)
+            {
+                WriteLog("Lỗi: " + ex.Message);
+                throw;
+            }
+
         }
     }
 }
