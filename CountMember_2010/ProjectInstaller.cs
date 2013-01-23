@@ -19,8 +19,8 @@ namespace CountMember
             serviceProcessInstaller1.Password = null;
             serviceProcessInstaller1.Username = null;
 
-            serviceInstaller1.Description = "Tự động post bài lên tường facebook của Mạc Văn Tân - thông qua email";
-            serviceInstaller1.ServiceName = "MVT - Auto Send Email";
+            serviceInstaller1.Description = "Tự động post bài lên tường facebook của Mạc Văn Tân";
+            serviceInstaller1.ServiceName = "MVT - Auto post facebook";
             serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
         }
     }
