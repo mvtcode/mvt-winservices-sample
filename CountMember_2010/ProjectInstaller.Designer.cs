@@ -1,4 +1,4 @@
-﻿namespace CountMember
+﻿namespace AutoServices
 {
     partial class ProjectInstaller
     {
