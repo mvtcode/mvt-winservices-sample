@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CountMember.LichVanNien {
+namespace AutoServices.LichVanNien {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -17,7 +17,7 @@ namespace CountMember.LichVanNien {
         
         // CODEGEN: Generating message contract since element name lichvansuResult from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/lichvansu", ReplyAction="*")]
-        CountMember.LichVanNien.lichvansuResponse lichvansu(CountMember.LichVanNien.lichvansuRequest request);
+        LichVanNien.lichvansuResponse lichvansu(LichVanNien.lichvansuRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -27,12 +27,12 @@ namespace CountMember.LichVanNien {
     public partial class lichvansuRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="lichvansu", Namespace="http://tempuri.org/", Order=0)]
-        public CountMember.LichVanNien.lichvansuRequestBody Body;
+        public LichVanNien.lichvansuRequestBody Body;
         
         public lichvansuRequest() {
         }
         
-        public lichvansuRequest(CountMember.LichVanNien.lichvansuRequestBody Body) {
+        public lichvansuRequest(LichVanNien.lichvansuRequestBody Body) {
             this.Body = Body;
         }
     }
@@ -69,12 +69,12 @@ namespace CountMember.LichVanNien {
     public partial class lichvansuResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="lichvansuResponse", Namespace="http://tempuri.org/", Order=0)]
-        public CountMember.LichVanNien.lichvansuResponseBody Body;
+        public LichVanNien.lichvansuResponseBody Body;
         
         public lichvansuResponse() {
         }
         
-        public lichvansuResponse(CountMember.LichVanNien.lichvansuResponseBody Body) {
+        public lichvansuResponse(LichVanNien.lichvansuResponseBody Body) {
             this.Body = Body;
         }
     }
@@ -97,12 +97,12 @@ namespace CountMember.LichVanNien {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface Service1SoapChannel : CountMember.LichVanNien.Service1Soap, System.ServiceModel.IClientChannel {
+    public interface Service1SoapChannel : LichVanNien.Service1Soap, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class Service1SoapClient : System.ServiceModel.ClientBase<CountMember.LichVanNien.Service1Soap>, CountMember.LichVanNien.Service1Soap {
+    public partial class Service1SoapClient : System.ServiceModel.ClientBase<LichVanNien.Service1Soap>, LichVanNien.Service1Soap {
         
         public Service1SoapClient() {
         }
@@ -124,17 +124,17 @@ namespace CountMember.LichVanNien {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        CountMember.LichVanNien.lichvansuResponse CountMember.LichVanNien.Service1Soap.lichvansu(CountMember.LichVanNien.lichvansuRequest request) {
+        LichVanNien.lichvansuResponse LichVanNien.Service1Soap.lichvansu(LichVanNien.lichvansuRequest request) {
             return base.Channel.lichvansu(request);
         }
         
         public System.Xml.Linq.XElement lichvansu(int iYear, int iMonth, int iDay) {
-            CountMember.LichVanNien.lichvansuRequest inValue = new CountMember.LichVanNien.lichvansuRequest();
-            inValue.Body = new CountMember.LichVanNien.lichvansuRequestBody();
+            LichVanNien.lichvansuRequest inValue = new LichVanNien.lichvansuRequest();
+            inValue.Body = new LichVanNien.lichvansuRequestBody();
             inValue.Body.iYear = iYear;
             inValue.Body.iMonth = iMonth;
             inValue.Body.iDay = iDay;
-            CountMember.LichVanNien.lichvansuResponse retVal = ((CountMember.LichVanNien.Service1Soap)(this)).lichvansu(inValue);
+            LichVanNien.lichvansuResponse retVal = ((LichVanNien.Service1Soap)(this)).lichvansu(inValue);
             return retVal.Body.lichvansuResult;
         }
     }

@@ -1,1 +1,1 @@
-InstallUtil/u CountMember.exe
+InstallUtil/u AutoServices.exe

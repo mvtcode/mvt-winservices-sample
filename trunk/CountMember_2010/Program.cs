@@ -4,7 +4,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 
-namespace CountMember
+namespace AutoServices
 {
     static class Program
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.ServiceProcess;
@@ -8,10 +7,9 @@ using System.Timers;
 using System.Windows.Forms;
 using Timer = System.Timers.Timer;
 using MailMessage = System.Net.Mail.MailMessage;
-using System.Data;
-using System.Xml;
+using Sercurity;
 
-namespace CountMember
+namespace AutoServices
 {
     partial class AutoServices : ServiceBase
     {
@@ -113,14 +111,7 @@ namespace CountMember
 
         private void WriteLog(string s)
         {
-            //string sLogFile = Application.StartupPath + string.Format("\\log\\{0:dd/MM/yyyy}.txt", DateTime.Now);
-            //if (!File.Exists(sLogFile))
-            //{
-            //    File.Create(sLogFile);
-            //}
-
-            string sLogFile = Application.StartupPath + "\\log\\logfile.txt";
-
+            string sLogFile = Application.StartupPath + "\\log\\" + DateTime.Now.ToString("ddMMyyyy") + "_log.txt";
             TextWriter file = new StreamWriter(sLogFile, true);
             file.WriteLine("-> " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " : " + s);
             file.Close();
@@ -132,10 +123,6 @@ namespace CountMember
             {
                 bool b = true;
                 string sFile = Application.StartupPath + "\\LastSend.txt";
-                //if (!File.Exists(sFile))
-                //{
-                //    File.Create(sFile);
-                //}
                 StreamReader reader = new StreamReader(sFile, true);
                 string s = reader.ReadLine();
                 if (s != null)
@@ -228,7 +215,7 @@ namespace CountMember
                 sContent += "(Send From AutoServices)";
 
                 var smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new NetworkCredential("macvantan@gmail.com", "s4a22808");
+                smtp.Credentials = new NetworkCredential("macvantan@gmail.com", Encrypt.DecryptConn("7qgZIaEIJKPOSnfkg1n5OA=="));
                 smtp.EnableSsl = true;
                 var mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("macvantan@gmail.com");
