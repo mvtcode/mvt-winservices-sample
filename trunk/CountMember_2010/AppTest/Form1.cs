@@ -18,8 +18,9 @@ namespace AppTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string s = Sercurity.Encrypt.DecryptConn("7qgZIaEIJKPOSnfkg1n5OA==");
-            MessageBox.Show(s);
+            //string s = Sercurity.Encrypt.DecryptConn("7qgZIaEIJKPOSnfkg1n5OA==");
+            //MessageBox.Show(s);
+            var o = lunadate.Solar2Lunar(DateTime.Now);
         }
     }
 }

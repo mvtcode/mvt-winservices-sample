@@ -228,3 +228,24 @@ The file is located at D:\Project\mvt-winservices-sample\CountMember_2010\bin\De
 The Commit phase completed successfully.
 
 The transacted install has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\AutoServices.exe assembly's progress.
+The file is located at D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\AutoServices.InstallLog.
+
+The uninstall has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\AutoServices.exe assembly's progress.
+The file is located at D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\AutoServices.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\AutoServices.exe assembly's progress.
+The file is located at D:\Project\mvt-winservices-sample\CountMember_2010\bin\Debug\AutoServices.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
