@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.ServiceProcess;
 using System.Timers;
 using System.Windows.Forms;
+using Facebook;
 using Timer = System.Timers.Timer;
 using MailMessage = System.Net.Mail.MailMessage;
 using Sercurity;
@@ -189,44 +192,73 @@ namespace AutoServices
                 System.Xml.Linq.XNode calenday = obj.FirstNode;//id
                 calenday = calenday.NextNode;//day
                 calenday = calenday.NextNode;//lunaday
-                string sContent = string.Format("Ngày: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                int[] oLina = lunadate.Solar2Lunar(DateTime.Now);
+                string s = "";
+                if(oLina!=null)
+                {
+                    s = string.Format("{0}/{1}/{2}",oLina[0],oLina[1],oLina[2]);
+                }
+                string sContent = string.Format("-Hôm nay: {0}/{1}/{2} (DL) - {3}(AL).", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, s) + System.Environment.NewLine;
+                sContent += string.Format("-Ngày: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//lunamonth
-                sContent += string.Format("Tháng: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Tháng: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Năm: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Năm: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Hoàng đạo: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Hoàng đạo: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Ngũ hành: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Ngũ hành: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Sao: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Sao: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Nên làm: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Nên làm: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Không nên làm: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Không nên làm: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Xuất Hành: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Xuất Hành: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Giờ tốt: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Giờ tốt: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Tuổi xung: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Tuổi xung: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 calenday = calenday.NextNode;//
-                sContent += string.Format("Tiết: {0}--", ((System.Xml.Linq.XElement)calenday).Value);// +System.Environment.NewLine;
+                sContent += string.Format("-Tiết: {0}.", ((System.Xml.Linq.XElement)calenday).Value) +System.Environment.NewLine;
                 sContent += "(Send From AutoServices)";
+                
+                var fb = new FacebookClient("AAACxM53nypMBABJdzZC3egIPlY6oZAgPUPQTVXnlMHVjD7tD3WoWLYoLwcPqzcsi7G4dV0Udgmw2dnxOCarNw1MHF54JRQlNyVx8JcuwZDZD");
 
-                var smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new NetworkCredential("macvantan@gmail.com", Encrypt.DecryptConn("7qgZIaEIJKPOSnfkg1n5OA=="));
-                smtp.EnableSsl = true;
-                var mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress("macvantan@gmail.com");
-                //mailMessage.To.Add(new MailAddress("macvantan@gmail.com"));//lyra796pharos@m.facebook.com
-                mailMessage.To.Add(new MailAddress("lyra796pharos@m.facebook.com"));
-                mailMessage.Subject = sContent;// "test tiêu đề";
-                mailMessage.Body = string.Format("Send auto at: {0:dd/MM/yyyy HH:mm:ss}", DateTime.Now);
-                mailMessage.IsBodyHtml = true;
-                smtp.Send(mailMessage);
-                mailMessage.Dispose();
-                WriteLog("send email:" + sContent);
+                // make sure to add event handler for PostCompleted.
+                fb.PostCompleted += (o, e) =>
+                {
+                    if (e.Error != null)
+                    {
+                        WriteLog("Lỗi: " + e.Error.Message);
+                    }
+                    else
+                    {
+                        //dynamic result = e.GetResultData();
+                        WriteLog("Message Posted successfully");
+                    }
+                };
+
+                //dynamic parameters = new ExpandoObject();
+                var parameters = new Dictionary<string, object>();
+                parameters["message"] = sContent;
+
+                fb.PostAsync("me/feed", parameters);
+
+                //var smtp = new SmtpClient("smtp.gmail.com", 587);
+                //smtp.Credentials = new NetworkCredential("macvantan@gmail.com", Encrypt.DecryptConn("7qgZIaEIJKPOSnfkg1n5OA=="));
+                //smtp.EnableSsl = true;
+                //var mailMessage = new MailMessage();
+                //mailMessage.From = new MailAddress("macvantan@gmail.com");
+                ////mailMessage.To.Add(new MailAddress("macvantan@gmail.com"));//lyra796pharos@m.facebook.com
+                //mailMessage.To.Add(new MailAddress("lyra796pharos@m.facebook.com"));
+                //mailMessage.Subject = sContent;// "test tiêu đề";
+                //mailMessage.Body = string.Format("Send auto at: {0:dd/MM/yyyy HH:mm:ss}", DateTime.Now);
+                //mailMessage.IsBodyHtml = true;
+                //smtp.Send(mailMessage);
+                //mailMessage.Dispose();
+                //WriteLog("send email:" + sContent);
 
                 UpdateLoadLastSend();
             }
